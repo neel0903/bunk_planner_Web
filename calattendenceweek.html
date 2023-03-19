@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Attendance Calculator</title>
+    <script src="https://kit.fontawesome.com/your-font-awesome-kit-id.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="css/stylebody.css">
+  </head>
+  <body>
+    <div class="outercontainer">
+      <form>
+      <header>
+       
+      <h1>Bunk Planner</h1>
+    
+      <p>Plan your bunk. Calculate lecture you want to attend @Play Smart </p>
+     
+    </header>
+    
+    <div class="innercontainer"> 
+      <div id="my-container">
+        <!-- Your content here -->
+        <button id="next-page-button"><a href="calattendanceday.html">Calculate Attendance of Days</a></button>
+
+      </div>
+      
+     <h1>Attendance Tracker by Week</h1>
+    <br><br>
+    <label for="currentTotalLecture">Current Total Lecture:</label>
+    <input type="number" id="currentTotalLecture" name="currentTotalLecture" ><br><br>
+
+    
+    <label for="currentAttendance">Current Attendance:</label>
+    <input type="number" id="currentAttendance" name="currentAttendance" ><br><br>
+    
+    <label for="totalLectureInWeek">Total Lecture in Week:</label>
+    <input type="number" id="totalLectureInWeek" name="totalLectureInWeek" ><br><br>
+    
+    <label for="aimAttendance">Aim Attendance:</label>
+    <input type="number" id="aimAttendance" name="aimAttendance"><br><br>
+
+    
+    <button id="calculate-btn">Calculate</button>
+    <br><br>
+
+    <div id="resultDiv"></div>
+    <br><br>
+    
+
+    
+    </div>
+
+    
+
+
+    <footer>
+      <div class="developer-info">
+        <div class="visitor-tracker">
+          <div class="tracker-icon">
+            <i class="fa fa-user"></i>
+          </div>
+          <div class="tracker-counter">
+            <span class="count">0</span>
+            <span class="label">Visitors</span>
+          </div>
+        </div>
+        <p>Developed by Neelkumar Patel</p>
+        <p>Contact: neelkumarpatel.com</p>
+      </div>
+    </footer>
+  </div>
+
+    <script>
+ // Get the current visitor count from local storage or set it to 0
+ let visitorCount = localStorage.getItem('visitorCount') || 0;
+
+// Increment the visitor count by 1 and save it to local storage
+visitorCount++;
+localStorage.setItem('visitorCount', visitorCount);
+
+// Update the visitor count on the webpage
+const countElement = document.querySelector('.count');
+countElement.innerHTML = visitorCount;
+
+
+
+      // Add event listener to the button
+      const calculateBtn = document.getElementById("calculate-btn");
+      calculateBtn.addEventListener("click", (event) => {
+
+        event.preventDefault();
+        // Get the input values
+        const currentTotalLecture = parseInt(document.getElementById("currentTotalLecture").value);
+        const currentAttendance = parseInt(document.getElementById("currentAttendance").value);
+        const totalLectureInWeek = parseInt(document.getElementById("totalLectureInWeek").value);
+        const aimAttendance = parseInt(document.getElementById("aimAttendance").value);
+
+
+
+
+        // Validate the input values
+        if (currentTotalLecture < 0){
+        alert ("Current Total lecture is greater that 0");
+        }
+        if (currentAttendance < 0){
+        alert ("Current Attendence is greater that 0 and less then 100");
+        }
+        if (aimAttendance < 0){
+        alert ("Aim attendence is greater that 0 and less then 100");
+        }
+        if (totalLectureInWeek <= 0){
+        alert ("Total lecture in week is greater that 0");
+        }
+        
+
+        // Calculate the attendance percentage and the attendance needed
+        const futureTotalLecture =(currentTotalLecture + totalLectureInWeek);
+        const futurePresentLecture = futureTotalLecture * (aimAttendance/100);
+        const presentTotalLecture = (currentTotalLecture * (currentAttendance/100))
+        const attendLecture = Math.ceil(futurePresentLecture - presentTotalLecture);
+        const neededLecture = attendLecture > 0 ? attendLecture : 0;
+        
+        
+
+        // Create a div element to display the result
+        const resultDiv = document.getElementById("resultDiv");
+        const innerContainer = document.querySelector(".innercontainer");
+
+        // Display the result in the div element based on the attendance needed
+        if ( attendLecture <= totalLectureInWeek) {
+          if (attendLecture > 0){
+            resultDiv.innerHTML = `You need to attend ${neededLecture} lectures out of ${totalLectureInWeek} lectures to maintain ${aimAttendance} % attendance.`;
+            innerContainer.style.backgroundColor = "#7da9f0"; // Change background color to light blue
+          }
+          else{
+            resultDiv.innerHTML = "Enjoy you week you don't want to attend any lecture";
+            innerContainer.style.backgroundColor = "#76f576"; // Change background color to light green
+          }
+        }
+        else{
+          resultDiv.innerHTML = "Sorry you can't achive your ${aimAttendance} % ";
+          innerContainer.style.backgroundColor = "#f54242"; // Change background color to light red
+        }
+
+      });
+    </script>
+  </body>
+</html>

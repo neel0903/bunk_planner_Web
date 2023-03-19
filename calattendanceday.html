@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Calculate Attendence by days</title>
+    <link rel="stylesheet" type="text/css" href="css/stylebody.css">
+  </head>
+  <body>
+    <div class="outercontainer">
+      <form>
+      <header>
+          
+      <h1>Bunk Planer</h1>
+    
+      <p>Plane your bunk. Calculate lecture you want to attend @Play Smart </p>
+     
+    </header>
+    
+    
+    
+    <br><br>
+    <div class="innercontainer">
+      <div id="my-container">
+        <!-- Your content here -->
+        <button id="next-page-button"><a href="calattendanceweek.html">Calculate Attendance by week</a></button>
+
+      </div>
+      <h1>Attendance Tracker by Days</h1>
+      <label for="currentTotalLecture">Total Current Lecture</label>
+      <input type="number" id="currentTotalLecture" name="currentTotalLecture" ><br><br>
+      
+      <label for="currentAttendance">Current Attendance %</label>
+      <input type="number" id="currentAttendance" name="currentAttendance" ><br><br>
+      
+      <table>
+		<thead>
+			<tr>
+				<th>Days</th>
+				<th>Total number of Lecture</th>
+				<th>Attended Lecture</th>
+				<th>Projected Attendance</th>
+			</tr>
+		</thead>
+		<tbody id="table-body">
+			<tr>
+				<td>Day 1</td>
+				<td><input type="text" id="totalLectureday1" onchange="calculateAttendance()"></td>
+				<td><input type="text" id="attendedLectureday1" onchange="calculateAttendance()"></td>
+				<td><input type="text" id="projectedAttendanceDay1" disabled></td>
+			</tr>
+			<tr>
+				<td>Day 2</td>
+				<td><input type="text" id="totalLectureday2" onchange="calculateAttendance()"></td>
+				<td><input type="text" id="attendedLectureday2" onchange="calculateAttendance()"></td>
+				<td><input type="text" id="projectedAttendanceDay2" disabled></td>
+			</tr>
+			<tr>
+				<td>Day 3</td>
+				<td><input type="text" id="totalLectureday3" onchange="calculateAttendance()"></td>
+				<td><input type="text" id="attendedLectureday3" onchange="calculateAttendance()"></td>
+				<td><input type="text" id="projectedAttendanceDay3" disabled></td>
+			</tr>
+			<tr>
+				<td>Day 4</td>
+				<td><input type="text" id="totalLectureday4" onchange="calculateAttendance()"></td>
+				<td><input type="text" id="attendedLectureday4" onchange="calculateAttendance()"></td>
+				<td><input type="text"id="projectedAttendanceDay4" disabled></td>
+            </tr>
+            <tr>
+            <td>Day 5</td>
+            <td><input type="text" id="totalLectureday5" onchange="calculateAttendance()"></td>
+            <td><input type="text" id="attendedLectureday5" onchange="calculateAttendance()"></td>
+            <td><input type="text" id="projectedAttendanceDay5" disabled></td>
+            </tr>
+            <tr>
+            <td>Day 6</td>
+            <td><input type="text" id="totalLectureday6" onchange="calculateAttendance()"></td>
+            <td><input type="text" id="attendedLectureday6" onchange="calculateAttendance()"></td>
+            <td><input type="text" id="projectedAttendanceDay6" disabled></td>
+            </tr>
+            <tr>
+            <td>Day 7</td>
+            <td><input type="text" id="totalLectureday7" onchange="calculateAttendance()"></td>
+            <td><input type="text" id="attendedLectureday7" onchange="calculateAttendance()"></td>
+            <td><input type="text" id="projectedAttendanceDay7" disabled></td>
+            </tr>
+            </tbody>
+            </table>
+       </div>
+       <footer>
+        <div class="developer-info">
+          <div class="visitor-tracker">
+            <div class="tracker-icon">
+              <i class="fa fa-user"></i>
+            </div>
+            <div class="tracker-counter">
+              <span class="count">0</span>
+              <span class="label">Visitors</span>
+            </div>
+          </div>
+          <p>Developed by Neelkumar Patel</p>
+          <p>Contact: neelkumarpatel.com</p>
+        </div>
+      </footer>
+
+   
+  </div>
+    <script>
+
+
+
+// Get the current visitor count from local storage or set it to 0
+let visitorCount = localStorage.getItem('visitorCount1') || 0;
+
+// Increment the visitor count by 1 and save it to local storage
+visitorCount++;
+localStorage.setItem('visitorCount1', visitorCount);
+
+// Update the visitor count on the webpage
+const countElement = document.querySelector('.count');
+countElement.innerHTML = visitorCount;
+
+  // Validate the input values
+  if (currentTotalLecture < 0){
+        alert ("Current Total lecture is greater that 0");
+        }
+        if (currentAttendance < 0 || currentAttendance < 100){
+        alert ("Current Attendence is greater that 0 and less then 100");
+        }
+       if (attendedLectureday1 > totalLectureday1 || attendedLectureday2 >totalLectureday2 ||attendedLectureday3 >totalLectureday3 || attendedLectureday4 >totalLectureday4 || attendedLectureday5 > totalLectureday5 ||attendedLectureday6 >totalLectureday6 || attendedLectureday7 >totalLectureday7)
+        {
+          alert ("Attended Lecture must be less or equal to Total Lecture ");
+        }
+// get current day (0 = Sunday, 1 = Monday, etc.)
+
+
+// Get the current day of the week (0 = Sunday, 1 = Monday, etc.)
+
+function calculateAttendance() {
+			// get input values
+			var currentTotalLecture = parseFloat(document.getElementById("currentTotalLecture").value);
+			var currentAttendance = parseFloat(document.getElementById("currentAttendance").value);
+			var totalLectures = [];
+			var attendedLectures = [];
+			for (var i = 1; i <= 7; i++) {
+				totalLectures.push(parseFloat(document.getElementById("totalLectureday"+i).value));
+				attendedLectures.push(parseFloat(document.getElementById("attendedLectureday"+i).value));
+			}
+
+			// calculate current attended lectures
+			var currentAttendedLectures = currentTotalLecture * (currentAttendance / 100);
+
+			// calculate projected attendance for each day
+			for (var i = 1; i <= 7; i++) {
+				var projectedAttendance = (currentAttendedLectures + attendedLectures[i-1]) / (currentTotalLecture + totalLectures[i-1]) * 100;
+				document.getElementById("projectedAttendanceDay"+i).value = projectedAttendance.toFixed(2) + "%";
+			}
+		}
+
+    </script>
+  </body>
+</html>
+
+
+
